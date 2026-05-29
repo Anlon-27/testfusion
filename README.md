@@ -2,7 +2,9 @@
 
 <div align="center">
 
-**从精准检索到智能生成，重塑测试用例管理体验**
+**基于 AI 驱动的全栈测试管理平台**
+
+*从精准检索到智能生成，重塑测试用例管理体验*
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-4.2-green.svg)](https://www.djangoproject.com/)
@@ -322,8 +324,8 @@ TestFusion 的 RAG 引擎（`rag_engine.py`）基于 ChromaDB 构建，提供语
 
 ---
 
-<div align="center">
-基于 AI 驱动的全栈测试管理平台
-</div>
+## 💖 鸣谢与参考
 
-<sub>感谢 [testhub_platform](https://github.com/chenjigang4167/testhub_platform) 与 [ByteDance-Auto_prd_test_agent](https://github.com/zxLeva/ByteDance--Auto_prd_test_agent) 项目的参考与启发</sub>
+本项目的设计与开发借鉴了以下优秀的开源项目，特此鸣谢：
+- [testhub_platform](https://github.com/chenjigang4167/testhub_platform)
+- [ByteDance-Auto_prd_test_agent](https://github.com/zxLeva/ByteDance--Auto_prd_test_agent)
