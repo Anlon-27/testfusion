@@ -479,11 +479,12 @@ const handleCommand = (command) => {
   flex-shrink: 0;
 
 		.logo-img {
-			width: 100%;
-			height: 100%;
-			object-fit: fill;
-		}
+		height: 36px;
+		width: auto;
+		object-fit: contain;
+		display: block;
 	}
+}
 
 .el-aside {
   background-color: #001529;
