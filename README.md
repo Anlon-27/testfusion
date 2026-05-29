@@ -309,15 +309,6 @@ TestFusion 的 RAG 引擎（`rag_engine.py`）基于 ChromaDB 构建，提供语
 
 ---
 
-## 📚 文档
-
-- [数据工厂使用说明](./docs/数据工厂使用说明.md)
-- [UI 自动化测试执行说明](./docs/UI自动化测试执行说明.md)
-- [问题排查指南](./docs/问题排查指南.md)
-- [APP 自动化快速开始](./docs/APP/APP自动化快速开始.md)
-
----
-
 ## 📝 许可证
 
 本项目采用 GPL v3 许可证 - 详见 [LICENSE](LICENSE) 文件
