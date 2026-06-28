@@ -13,7 +13,7 @@
     <div class="filter-bar">
       <el-form :inline="true" :model="filters" class="filter-form">
         <el-form-item :label="$t('reviewTemplate.project')">
-          <el-select v-model="filters.project" :placeholder="$t('reviewTemplate.selectProject')" clearable @change="fetchTemplates">
+          <el-select v-model="filters.project" :placeholder="$t('reviewTemplate.selectProject')" clearable @change="fetchTemplates" style="width: 220px">
             <el-option
               v-for="project in projects"
               :key="project.id"

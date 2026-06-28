@@ -59,7 +59,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" />
         <el-table-column type="index" :label="$t('version.serialNumber')" width="80" :index="getSerialNumber" />
-        <el-table-column prop="name" :label="$t('version.versionName')" min-width="100">
+        <el-table-column prop="name" :label="$t('version.versionName')" min-width="260">
           <template #default="{ row }">
             <div class="version-name">
               <span>{{ row.name }}</span>

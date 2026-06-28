@@ -112,22 +112,6 @@
           <p>基于 ADB 与 uiautomator2 的 Android APP 自动化测试</p>
         </div>
 
-        <!-- AI 智能模式 -->
-        <div class="nav-card" @click="handleNavigate('ai-intelligent')" role="button" tabindex="0">
-          <div class="card-icon ai-intelligent-icon">
-            <el-icon><Cpu /></el-icon>
-          </div>
-          <h3>{{ $t('home.aiIntelligentMode') }}</h3>
-          <p>{{ $t('home.aiIntelligentModeDesc') }}</p>
-        </div>
-        <!-- AI评测师 -->
-        <div class="nav-card" @click="handleNavigate('assistant')" role="button" tabindex="0">
-          <div class="card-icon assistant-icon">
-            <el-icon><ChatDotRound /></el-icon>
-          </div>
-          <h3>{{ $t('home.aiEvaluator') }}</h3>
-          <p>{{ $t('home.aiEvaluatorDesc') }}</p>
-        </div>
         <!-- 配置中心 -->
         <div class="nav-card" @click="handleNavigate('config')" role="button" tabindex="0">
           <div class="card-icon config-icon">
@@ -259,8 +243,6 @@ const handleNavigate = (type) => {
     'api': '/api-testing/dashboard',
     'ui': '/ui-automation/dashboard',
     'app': '/app-automation/dashboard',
-    'ai-intelligent': '/ai-intelligent-mode/testing',
-    'assistant': '/ai-generation/assistant',
     'config': '/configuration/ai-model',
     'data': '/data-factory'
   }
@@ -423,52 +405,100 @@ const handleNavigate = (type) => {
 
 .main-title {
   font-size: 3.5rem;
-  color: #2c3e50;
+  background: linear-gradient(135deg, #0f172a 0%, #2563eb 50%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 1rem;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
 .subtitle {
-  font-size: 1.5rem;
-  color: #5e6d82;
+  font-size: 1.3rem;
+  color: #64748b;
   margin-bottom: 4rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   padding: 20px;
 }
 
 .nav-card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  padding: 40px 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 40px 24px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
 
   &:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
-    background: #fff;
+    transform: translateY(-8px) scale(1.01);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(59, 130, 246, 0.35);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  /* 针对各主题色的 Neon 霓虹外发光 */
+  &:hover:has(.ai-icon) {
+    box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.25);
+  }
+  &:hover:has(.api-icon) {
+    box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.25);
+  }
+  &:hover:has(.ui-icon) {
+    box-shadow: 0 20px 40px -15px rgba(245, 158, 11, 0.25);
+  }
+  &:hover:has(.data-icon) {
+    box-shadow: 0 20px 40px -15px rgba(6, 182, 212, 0.25);
+  }
+  &:hover:has(.app-icon) {
+    box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.25);
+  }
+  &:hover:has(.config-icon) {
+    box-shadow: 0 20px 40px -15px rgba(20, 184, 166, 0.25);
   }
 
   h3 {
-    font-size: 1.5rem;
-    color: #2c3e50;
+    font-size: 1.4rem;
+    color: #0f172a;
     margin: 20px 0 10px;
+    font-weight: 700;
   }
 
   p {
-    color: #7f8c8d;
-    line-height: 1.5;
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
     margin: 0;
+    font-weight: 500;
   }
 }
 
@@ -555,7 +585,7 @@ const handleNavigate = (type) => {
   .cards-container {
     gap: 26px;
     padding: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .nav-card {
@@ -575,7 +605,7 @@ const handleNavigate = (type) => {
   .cards-container {
     gap: 24px;
     padding: 14px;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .nav-card {
@@ -605,7 +635,7 @@ const handleNavigate = (type) => {
   .cards-container {
     gap: 22px;
     padding: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .nav-card {
@@ -635,7 +665,7 @@ const handleNavigate = (type) => {
   .cards-container {
     gap: 20px;
     padding: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .nav-card {
@@ -670,7 +700,7 @@ const handleNavigate = (type) => {
   .cards-container {
     gap: 18px;
     padding: 10px;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .nav-card {

@@ -48,7 +48,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="base_url" :label="$t('uiAutomation.project.baseUrl')" min-width="200" show-overflow-tooltip />
-        <el-table-column prop="owner.username" :label="$t('uiAutomation.project.owner')" width="100" />
+        <el-table-column prop="owner.username" :label="$t('uiAutomation.project.owner')" width="140" />
         <el-table-column prop="created_at" :label="$t('uiAutomation.common.createTime')" width="180" :formatter="formatDate" />
         <el-table-column prop="updated_at" :label="$t('uiAutomation.common.updateTime')" width="180" :formatter="formatDate" />
         <el-table-column :label="$t('uiAutomation.common.operation')" width="180" fixed="right">

@@ -58,12 +58,7 @@ const routes = [
         component: Register,
         meta: { requiresGuest: true }
     },
-    {
-        path: '/ai-generation/assistant',
-        name: 'Assistant',
-        component: () => import('@/views/assistant/AssistantView.vue'),
-        meta: { requiresAuth: true }
-    },
+
     {
         path: '/ai-generation',
         component: Layout,
@@ -307,32 +302,7 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/ai-intelligent-mode',
-        component: Layout,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '',
-                redirect: 'testing'
-            },
-            {
-                path: 'testing',
-                name: 'AITesting',
-                component: UiAITesting
-            },
-            {
-                path: 'cases',
-                name: 'AICaseList',
-                component: UiAICaseList
-            },
-            {
-                path: 'execution-records',
-                name: 'AIExecutionRecords',
-                component: UiAIExecutionRecords
-            }
-        ]
-    },
+
     {
         path: '/data-factory',
         name: 'DataFactory',
@@ -378,19 +348,9 @@ const routes = [
                         component: () => import('@/views/app-automation/settings/AppSettings.vue')
                     },
                     {
-                        path: 'ai-mode',
-                        name: 'ConfigAIMode',
-                        component: () => import('@/views/configuration/AIIntelligentModeConfig.vue')
-                    },
-                    {
                         path: 'scheduled-task',
                         name: 'ConfigScheduledTask',
                         component: () => import('@/views/ui-automation/notification/NotificationConfigs.vue')
-                    },
-                    {
-                        path: 'dify',
-                        name: 'DifyConfig',
-                        component: () => import('@/views/configuration/DifyConfig.vue')
                     }
                 ]
             }

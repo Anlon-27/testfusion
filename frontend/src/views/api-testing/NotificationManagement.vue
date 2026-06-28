@@ -49,13 +49,13 @@
             v-loading="loading"
             style="width: 100%"
           >
-            <el-table-column prop="task_name" :label="$t('apiTesting.notification.taskName')" min-width="120" />
+            <el-table-column prop="task_name" :label="$t('apiTesting.notification.taskName')" min-width="200" show-overflow-tooltip />
             <el-table-column prop="notify_time" :label="$t('apiTesting.notification.notifyTime')" min-width="140">
               <template #default="{ row }">
                 {{ formatDateTime(row.notify_time) }}
               </template>
             </el-table-column>
-            <el-table-column prop="recipients" :label="$t('apiTesting.notification.recipients')" min-width="120">
+            <el-table-column prop="recipients" :label="$t('apiTesting.notification.recipients')" min-width="200" show-overflow-tooltip>
               <template #default="{ row }">
                 <span v-if="row.notify_type === 'EMAIL'">
                   {{ row.recipients.join(', ') }}
@@ -195,7 +195,7 @@
                     </el-tag>
                   </template>
                 </el-table-column>
-                <el-table-column prop="webhook_url" :label="$t('apiTesting.notification.webhookAddress')" min-width="200" />
+                <el-table-column prop="webhook_url" :label="$t('apiTesting.notification.webhookAddress')" min-width="200" show-overflow-tooltip />
                 <el-table-column prop="enabled" :label="$t('apiTesting.common.status')" width="80">
                   <template #default="{ row }">
                     <el-switch

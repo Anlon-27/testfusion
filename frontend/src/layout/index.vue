@@ -9,9 +9,9 @@
         <el-menu
           :default-active="$route.path"
           router
-          background-color="#001529"
-          text-color="#fff"
-          active-text-color="#1890ff"
+          background-color="#0b1329"
+          text-color="#a0aec0"
+          active-text-color="#3b82f6"
         >
           <!-- AI用例生成模块菜单 -->
           <template v-if="currentModule === 'ai-generation'">
@@ -194,22 +194,7 @@
             </el-menu-item>
           </template>
 
-          <!-- AI 智能模式模块菜单 -->
-          <template v-else-if="currentModule === 'ai-intelligent-mode'">
-            <el-menu-item index="/ai-intelligent-mode/testing">
-              <el-icon><VideoPlay /></el-icon>
-              <span>{{ $t('menu.aiIntelligentTesting') }}</span>
-            </el-menu-item>
-            <el-menu-item index="/ai-intelligent-mode/cases">
-              <el-icon><Document /></el-icon>
-              <span>{{ $t('menu.aiCaseManagement') }}</span>
-            </el-menu-item>
-            <el-menu-item index="/ai-intelligent-mode/execution-records">
-              <el-icon><Timer /></el-icon>
-              <span>{{ $t('menu.aiExecutionRecords') }}</span>
-            </el-menu-item>
 
-          </template>
 
           <!-- 配置中心模块菜单 -->
           <template v-else-if="currentModule === 'configuration'">
@@ -239,17 +224,9 @@
               <el-icon><Cellphone /></el-icon>
               <span>APP环境配置</span>
             </el-menu-item>
-            <el-menu-item index="/configuration/ai-mode">
-              <el-icon><MagicStick /></el-icon>
-              <span>{{ $t('menu.aiModeConfig') }}</span>
-            </el-menu-item>
             <el-menu-item index="/configuration/scheduled-task">
               <el-icon><Timer /></el-icon>
               <span>{{ $t('menu.scheduledTaskConfig') }}</span>
-            </el-menu-item>
-            <el-menu-item index="/configuration/dify">
-              <el-icon><ChatDotRound /></el-icon>
-              <span>{{ $t('menu.difyConfig') }}</span>
             </el-menu-item>
           </template>
         </el-menu>
@@ -356,7 +333,6 @@ const currentModule = computed(() => {
   if (route.path.startsWith('/api-testing')) return 'api-testing'
   if (route.path.startsWith('/ui-automation')) return 'ui-automation'
   if (route.path.startsWith('/app-automation')) return 'app-automation'
-  if (route.path.startsWith('/ai-intelligent-mode')) return 'ai-intelligent-mode'
   if (route.path.startsWith('/configuration')) return 'configuration'
   return ''
 })
@@ -367,7 +343,6 @@ const moduleName = computed(() => {
     'api-testing': t('modules.apiTesting'),
     'ui-automation': t('modules.uiAutomation'),
     'app-automation': 'APP自动化测试',
-    'ai-intelligent-mode': t('modules.aiIntelligentMode'),
     'configuration': t('modules.configuration')
   }
   return map[currentModule.value] || ''
@@ -425,20 +400,12 @@ const breadcrumbTitle = computed(() => {
     '/app-automation/executions': '执行记录',
     '/app-automation/reports': '测试报告',
 
-    // AI 智能模式
-    '/ai-intelligent-mode/testing': t('menu.aiIntelligentTesting'),
-    '/ai-intelligent-mode/cases': t('menu.aiCaseManagement'),
-    '/ai-intelligent-mode/execution-records': t('menu.aiExecutionRecords'),
-
-
     // 配置中心
     '/configuration/ai-model': t('menu.aiModelConfig'),
     '/configuration/prompt-config': t('menu.promptConfig'),
     '/configuration/generation-config': t('menu.generationConfig'),
     '/configuration/ui-env': t('menu.uiEnvConfig'),
-    '/configuration/ai-mode': t('menu.aiModeConfig'),
     '/configuration/scheduled-task': t('menu.scheduledTaskConfig'),
-    '/configuration/dify': t('menu.difyConfig'),
     
     '/profile': t('nav.profile')
   }
@@ -473,9 +440,9 @@ const handleCommand = (command) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #001529;
+  background-color: #0b1329;
   color: white;
-  border-bottom: 1px solid #1f1f1f;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
 
 		.logo-img {
@@ -487,7 +454,7 @@ const handleCommand = (command) => {
 }
 
 .el-aside {
-  background-color: #001529;
+  background-color: #0b1329;
   height: 100%;
   display: flex;
   flex-direction: column;

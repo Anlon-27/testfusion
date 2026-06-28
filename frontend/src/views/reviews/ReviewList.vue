@@ -13,7 +13,7 @@
     <div class="filter-bar">
       <el-form :inline="true" :model="filters" class="filter-form">
         <el-form-item :label="$t('reviewList.project')">
-          <el-select v-model="filters.project" :placeholder="$t('reviewList.selectProject')" clearable @change="fetchReviews">
+          <el-select v-model="filters.project" :placeholder="$t('reviewList.selectProject')" clearable @change="fetchReviews" style="width: 220px">
             <el-option
               v-for="project in projects"
               :key="project.id"
@@ -23,7 +23,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reviewList.status')">
-          <el-select v-model="filters.status" :placeholder="$t('reviewList.selectStatus')" clearable @change="fetchReviews">
+          <el-select v-model="filters.status" :placeholder="$t('reviewList.selectStatus')" clearable @change="fetchReviews" style="width: 160px">
             <el-option :label="$t('reviewList.statusPending')" value="pending" />
             <el-option :label="$t('reviewList.statusInProgress')" value="in_progress" />
             <el-option :label="$t('reviewList.statusApproved')" value="approved" />
@@ -32,7 +32,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reviewList.reviewer')">
-          <el-select v-model="filters.reviewer" :placeholder="$t('reviewList.selectReviewer')" clearable @change="fetchReviews">
+          <el-select v-model="filters.reviewer" :placeholder="$t('reviewList.selectReviewer')" clearable @change="fetchReviews" style="width: 180px">
             <el-option
               v-for="user in users"
               :key="user.id"

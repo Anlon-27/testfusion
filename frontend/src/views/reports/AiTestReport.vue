@@ -96,7 +96,7 @@
           </div>
           <div class="chart-body table-body">
             <el-table :data="failedCasesTop" style="width: 100%" size="small">
-              <el-table-column prop="testcase__title" :label="$t('report.caseTitle')" show-overflow-tooltip />
+              <el-table-column prop="testcase__title" :label="$t('report.caseTitle')" min-width="180" show-overflow-tooltip />
               <el-table-column prop="fail_count" :label="$t('report.failureCount')" width="100" align="center">
                 <template #default="scope">
                   <el-tag type="danger">{{ scope.row.fail_count }}</el-tag>

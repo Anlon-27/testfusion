@@ -64,7 +64,7 @@
           <span v-else>{{ $t('execution.noData') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="version" :label="$t('execution.version')" width="120"></el-table-column>
+      <el-table-column prop="version" :label="$t('execution.version')" min-width="160" show-overflow-tooltip></el-table-column>
       <el-table-column prop="creator.username" :label="$t('execution.creator')" width="120"></el-table-column>
       <el-table-column :label="$t('execution.status')" width="100">
         <template #default="scope">

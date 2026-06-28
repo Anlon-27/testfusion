@@ -28,15 +28,15 @@
           <div class="members-section">
             <el-button type="primary" @click="showAddMemberDialog = true">{{ $t('project.addMember') }}</el-button>
             <el-table :data="project?.members || []" style="width: 100%; margin-top: 20px;">
-              <el-table-column prop="user.username" :label="$t('project.username')" />
-              <el-table-column prop="user.email" :label="$t('project.email')" />
-              <el-table-column prop="role" :label="$t('project.role')" />
-              <el-table-column prop="joined_at" :label="$t('project.joinedAt')">
+              <el-table-column prop="user.username" :label="$t('project.username')" min-width="150" show-overflow-tooltip />
+              <el-table-column prop="user.email" :label="$t('project.email')" min-width="200" show-overflow-tooltip />
+              <el-table-column prop="role" :label="$t('project.role')" width="120" />
+              <el-table-column prop="joined_at" :label="$t('project.joinedAt')" width="180">
                 <template #default="{ row }">
                   {{ formatDate(row.joined_at) }}
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('project.actions')" width="100">
+              <el-table-column :label="$t('project.actions')" width="120">
                 <template #default="{ row }">
                   <el-button size="small" type="danger" @click="removeMember(row)">{{ $t('common.delete') }}</el-button>
                 </template>
@@ -49,10 +49,10 @@
           <div class="environments-section">
             <el-button type="primary" @click="showAddEnvDialog = true">{{ $t('project.addEnvironment') }}</el-button>
             <el-table :data="project?.environments || []" style="width: 100%; margin-top: 20px;">
-              <el-table-column prop="name" :label="$t('project.environmentName')" />
-              <el-table-column prop="base_url" :label="$t('project.baseUrl')" />
-              <el-table-column prop="description" :label="$t('project.description')" />
-              <el-table-column prop="is_default" :label="$t('project.defaultEnvironment')">
+              <el-table-column prop="name" :label="$t('project.environmentName')" min-width="150" show-overflow-tooltip />
+              <el-table-column prop="base_url" :label="$t('project.baseUrl')" min-width="250" show-overflow-tooltip />
+              <el-table-column prop="description" :label="$t('project.description')" min-width="200" show-overflow-tooltip />
+              <el-table-column prop="is_default" :label="$t('project.defaultEnvironment')" width="150">
                 <template #default="{ row }">
                   <el-tag v-if="row.is_default" type="success">{{ $t('project.yes') }}</el-tag>
                   <span v-else>{{ $t('project.no') }}</span>
