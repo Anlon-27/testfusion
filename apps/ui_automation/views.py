@@ -1255,36 +1255,17 @@ class TestCaseViewSet(viewsets.ModelViewSet):
                 started_at=timezone.now()
             )
 
-            # 根据引擎类型导入对应的执行引擎
             if engine_type == 'selenium':
-                from .selenium_engine import SeleniumTestEngine
-
-                # Selenium 引擎需要预先检查浏览器是否可用
-                browser_type = request.data.get('browser', 'chrome')
-                is_available, error_msg = SeleniumTestEngine.check_browser_available(browser_type)
-                if not is_available:
-                    # 浏览器不可用，立即返回错误
-                    logger.error(f"Selenium 浏览器检查失败: {error_msg}")
-                    execution.status = 'failed'
-                    execution.error_message = error_msg
-                    execution.execution_logs = f"浏览器检查失败\n\n{error_msg}\n\n建议：\n1. 请确认已安装 {browser_type.capitalize()} 浏览器\n2. 或者尝试使用其他浏览器（Chrome、Firefox、Edge）\n3. 或者使用 Playwright 引擎（支持自动下载浏览器）"
-                    execution.finished_at = timezone.now()
-                    execution.save()
-
-                    return Response({
-                        'success': False,
-                        'logs': execution.execution_logs,
-                        'screenshots': [],
-                        'execution_time': 0,
-                        'errors': [{
-                            'message': f'{browser_type.capitalize()} 浏览器不可用',
-                            'details': error_msg,
-                            'step_number': None,
-                            'action_type': '浏览器检查',
-                            'element': '',
-                            'description': '执行前浏览器环境检查'
-                        }]
-                    }, status=status.HTTP_400_BAD_REQUEST)
+                execution.status = 'failed'
+                execution.error_message = 'Selenium 引擎已完全弃用并从平台下线。'
+                execution.execution_logs = '执行失败\n\n提示：Selenium 引擎已被移除。请在执行配置中选用高性能的 Playwright 引擎！'
+                execution.finished_at = timezone.now()
+                execution.save()
+                from rest_framework import status as http_status
+                return Response({
+                    'success': False,
+                    'message': 'Selenium 引擎已完全弃用并从平台下线，请改用 Playwright 引擎！'
+                }, status=http_status.HTTP_400_BAD_REQUEST)
             else:
                 import asyncio
                 import threading
@@ -2875,24 +2856,10 @@ class AICaseViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def run(self, request, pk=None):
         """执行 AI 用例"""
-        ai_case = self.get_object()
-
-        # 创建执行记录
-        execution_record = AIExecutionRecord.objects.create(
-            project=ai_case.project,
-            ai_case=ai_case,
-            case_name=ai_case.name,
-            task_description=ai_case.task_description,
-            status='running',
-            executed_by=request.user,
-            logs="正在分析任务...\n"
+        return Response(
+            {'error': '该功能已根据系统优化方案下线以确保稳定性，请使用 Playwright/Selenium 代码执行器。'},
+            status=status.HTTP_400_BAD_REQUEST
         )
-
-        # 异步执行
-        import threading
-        import os
-        from asgiref.sync import sync_to_async
-        from django.db import connection, DatabaseError
         from .ai_agent import run_full_process_sync
 
         def run_task():
@@ -3373,35 +3340,10 @@ class AIExecutionRecordViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='run_adhoc')
     def run_adhoc(self, request):
         """执行临时 AI 任务"""
-        project_id = request.data.get('project_id')
-        task_description = request.data.get('task_description')
-        execution_mode = request.data.get('execution_mode', 'text')  # 默认文本模式
-        enable_gif = request.data.get('enable_gif', True)  # GIF录制开关，默认开启
-
-        if not task_description:
-            return Response({'error': '缺少任务描述参数'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # 获取项目对象（如果提供了project_id）
-        project = None
-        if project_id:
-            try:
-                project = UiProject.objects.get(id=project_id)
-            except UiProject.DoesNotExist:
-                return Response({'error': '项目不存在'}, status=status.HTTP_404_NOT_FOUND)
-
-        # 创建执行记录
-        execution_record = AIExecutionRecord.objects.create(
-            project=project,
-            case_name="Adhoc Task",
-            task_description=task_description,
-            execution_mode=execution_mode,
-            status='running',
-            executed_by=request.user,
-            logs="正在分析任务...\n"
+        return Response(
+            {'error': '该功能已根据系统优化方案下线以确保稳定性，请使用 Playwright/Selenium 代码执行器。'},
+            status=status.HTTP_400_BAD_REQUEST
         )
-
-        # 异步执行
-        import threading
         import os
         from asgiref.sync import sync_to_async
         from django.db import connection, DatabaseError

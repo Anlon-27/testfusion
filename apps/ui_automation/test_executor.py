@@ -29,7 +29,7 @@ class TestExecutor:
 
     def __init__(self, test_suite, engine='playwright', browser='chrome', headless=False, executed_by=None):
         self.test_suite = test_suite
-        self.engine = engine
+        self.engine = 'playwright'  # 强制使用 Playwright 引擎，废弃 Selenium
         self.browser = browser
         self.headless = headless
         self.executed_by = executed_by

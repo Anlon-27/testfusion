@@ -516,7 +516,7 @@ class ElementValidationSerializer(serializers.Serializer):
 class CodeGenerationSerializer(serializers.Serializer):
     """代码生成序列化器"""
     language = serializers.ChoiceField(choices=[('javascript', 'JavaScript'), ('python', 'Python')], default='javascript')
-    framework = serializers.ChoiceField(choices=[('playwright', 'Playwright'), ('selenium', 'Selenium')], default='playwright')
+    framework = serializers.ChoiceField(choices=[('playwright', 'Playwright')], default='playwright')
     include_comments = serializers.BooleanField(default=True)
 
     def validate(self, data):
