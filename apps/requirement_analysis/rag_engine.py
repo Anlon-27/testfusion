@@ -10,6 +10,7 @@ import json
 import uuid
 import logging
 import httpx
+import numpy as np
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Tuple
 
@@ -88,6 +89,11 @@ class TextSplitter:
 
             # 2. 如果单段已经超过了 chunk_size，需要对单段进行句级切分
             if para_len > chunk_size:
+                # 2.1 如果是Markdown表格，保留完整性，避免在表格内部进行暴力句级/行级切割
+                if para.strip().startswith('|') and para.strip().endswith('|') and '|' in para:
+                    chunks.append(para)
+                    continue
+
                 # 如果当前 buffer 里还有内容，先存成一个块
                 if current_chunk:
                     chunks.append("\n\n".join(current_chunk))
@@ -256,15 +262,50 @@ class RAGEngine:
         sources = []
 
         if use_knowledge:
+            # 一阶段：召回更多的候选片段（如 top_k_knowledge * 3）
+            candidate_k = top_k_knowledge * 3
             res_k = self.knowledge_coll.query(
-                query_texts=[query], n_results=top_k_knowledge
+                query_texts=[query], n_results=candidate_k
             )
             if res_k.get('documents') and res_k['documents'][0]:
-                for i, doc in enumerate(res_k['documents'][0]):
-                    meta = res_k['metadatas'][0][i] if res_k.get('metadatas') else {}
-                    src = meta.get('source', 'unknown')
-                    context_parts.append(f"【技术规范片段 ({src})】:\n...{doc}...")
-                    sources.append(src)
+                docs = res_k['documents'][0]
+                metas = res_k['metadatas'][0] if res_k.get('metadatas') else [{}] * len(docs)
+
+                # 二阶段重排 (Rerank)：使用本地已初始化的 Embedding 向量模型计算精确余弦相似度
+                try:
+                    # 获取 query 的向量和各 doc 的向量
+                    query_vector = np.array(self.embedding_fn([query])[0])
+                    doc_vectors = np.array(self.embedding_fn(docs))
+
+                    # 计算余弦相似度: dot(a, b) / (norm(a) * norm(b))
+                    scores = []
+                    query_norm = np.linalg.norm(query_vector)
+                    for idx, doc_vec in enumerate(doc_vectors):
+                        doc_norm = np.linalg.norm(doc_vec)
+                        if query_norm > 0 and doc_norm > 0:
+                            sim = float(np.dot(query_vector, doc_vec) / (query_norm * doc_norm))
+                        else:
+                            sim = 0.0
+                        scores.append((sim, docs[idx], metas[idx]))
+
+                    # 按余弦相似度降序排序，取前 top_k_knowledge 个
+                    scores.sort(key=lambda x: x[0], reverse=True)
+                    reranked_results = scores[:top_k_knowledge]
+
+                    # 过滤掉得分低于 0.3 的语义不相关噪声块
+                    for score, doc, meta in reranked_results:
+                        if score >= 0.3:
+                            src = meta.get('source', 'unknown')
+                            context_parts.append(f"【技术规范片段 ({src})】:\n...{doc}...")
+                            sources.append(src)
+                except Exception as rerank_err:
+                    logger.warning(f"Rerank 失败，退回到默认的一阶段向量近邻匹配: {rerank_err}")
+                    # 降级：直接取前 top_k_knowledge
+                    for i, doc in enumerate(docs[:top_k_knowledge]):
+                        meta = metas[i]
+                        src = meta.get('source', 'unknown')
+                        context_parts.append(f"【技术规范片段 ({src})】:\n...{doc}...")
+                        sources.append(src)
 
         if use_history:
             res_h = self.history_coll.query(
